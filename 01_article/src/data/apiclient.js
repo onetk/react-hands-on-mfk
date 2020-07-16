@@ -17,6 +17,7 @@ React は Node を使ったサーバー上でもレンダーできますし、Re
     `,
     author: "Bob",
     date: "2020-07-09T02:56:20.773Z",
+    good: 14,
   },
   {
     id: 2,
@@ -45,6 +46,7 @@ React は Node を使ったサーバー上でもレンダーできますし、Re
     `,
     author: "John",
     date: "2020-07-09T08:04:14.123Z",
+    good: 23,
   },
   {
     id: 3,
@@ -66,12 +68,13 @@ React は HTML ページにすぐに追加することができます。その�
     `,
     author: "John",
     date: "2020-07-10T18:24:30.456Z",
+    good: 5,
   },
 ];
 
-export async function fetchArticle() {
+export async function fetchArticle(id) {
   await sleep(2000); // 通信待ちのダミー処理
-  return articles[0];
+  return articles.find((article) => article.id === id);
 }
 
 export async function fetchArticles() {
@@ -80,7 +83,42 @@ export async function fetchArticles() {
     id: article.id,
     date: article.date,
     title: article.title,
+    good: article.good,
   }));
+}
+
+let loggedInUser;
+
+export async function login(id, password) {
+  await sleep(2000);
+
+  loggedInUser = {
+    id,
+    name: "山田 太郎",
+  };
+
+  return loggedInUser;
+}
+
+export async function fetchMe() {
+  await sleep(2000);
+  return loggedInUser;
+}
+
+export async function logout() {
+  await sleep(2000);
+
+  loggedInUser = void 0;
+}
+
+export async function incrementGoodForArticle(articleId) {
+  const article = await fetchArticle(articleId);
+  console.log({ article });
+  article.good = article.good + 1;
+  console.log({ newGood: article.good });
+  return {
+    good: article.good,
+  };
 }
 
 async function sleep(millis) {

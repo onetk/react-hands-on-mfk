@@ -1,6 +1,7 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import { useGoodForArticle } from "./hooks/goodcount";
 import { useArticle } from "./hooks/article";
 import { useParams } from "react-router-dom";
 
@@ -10,26 +11,42 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import { useDispatch, useSelector } from "react-redux";
 
 export function Article() {
+  // const { articleId } = useParams();
+  // const { article } = useArticle(parseInt(articleId));
+  // const dispatch = useDispatch();
+  // const goodState = useSelector((state) => state.good);
+  // console.log(goodState);
+
+  // if (!article) {
+  //   return <div>loading...</div>;
+  // }
+
+  // const goodCount = goodState[`article:${article.id}`] || 0;
+
+  // const onClickGoodButton = () => {
+  //   dispatch({
+  //     type: "GOOD_COUNT_INCREMENT",
+  //     payload: {
+  //       articleId: article.id,
+  //     },
+  //   });
+  // };
+
   const { articleId } = useParams();
   const { article } = useArticle(parseInt(articleId));
-  const dispatch = useDispatch();
-  const goodState = useSelector((state) => state.good);
+  const { getGoodCount, incrementGoodCount } = useGoodForArticle();
 
   if (!article) {
     return <div>loading...</div>;
   }
 
-  const goodCount = goodState[`article:${article.id}`] || 0;
+  const goodCount = getGoodCount(article.id);
 
   const onClickGoodButton = () => {
-    dispatch({
-      type: "GOOD_COUNT_INCREMENT",
-      payload: {
-        articleId: article.id,
-      },
-    });
+    incrementGoodCount(article.id);
   };
 
+  console.log(articleId);
   return (
     <Container maxWidth="md">
       <Typography variant="h5" style={{ padding: "32px 16px 0 0" }}>
