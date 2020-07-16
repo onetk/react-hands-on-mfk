@@ -3,24 +3,27 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { useArticles } from "./hooks/article";
+import { Link, useParams, useLocation, useHistory } from "react-router-dom";
 
-export function ArticleList(props) {
+export function ArticleList() {
   const { articles } = useArticles();
-  const { selectedArticleId, onArticleSelected } = props;
+  const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
-    if (articles && articles.length > 0 && selectedArticleId === null) {
-      onArticleSelected(articles[0]);
+    // ルートパスにアクセスしたら1つめの記事にリダイレクトする
+    if (articles && articles.length > 0 && location.pathname === "/") {
+      history.replace(`/article/${articles[0].id}`);
     }
-  }, [articles, onArticleSelected, selectedArticleId]);
-
-  const onClickItem = (articleSummary) => {
-    onArticleSelected(articleSummary);
-  };
+  }, [articles, history, location.pathname]);
 
   if (!articles) {
     return <div>Loading...</div>;
   }
+
+  // パス（ex. /article/1）から記事IDを抽出する
+  const match = location.pathname.match(/\/article\/([0-9]+)/);
+  const articleId = match ? parseInt(match[1]) : null;
 
   return (
     <List component="nav">
@@ -28,8 +31,9 @@ export function ArticleList(props) {
         <ListItem
           key={articleSummary.id}
           button
-          selected={selectedArticleId === articleSummary.id}
-          onClick={() => onClickItem(articleSummary)}
+          selected={articleId === articleSummary.id}
+          component={Link}
+          to={`/article/${articleSummary.id}`}
         >
           <ListItemText
             primary={articleSummary.title}

@@ -4,6 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { Article } from "./Article";
 import { ArticleList } from "./ArticleList";
+import { Switch, Route } from "react-router-dom"; // route「r」
 
 // const article = {
 //   title: "Reactやっていこうな",
@@ -25,11 +26,11 @@ import { ArticleList } from "./ArticleList";
 // };
 
 function App() {
-  const [selectedArticleId, setSelectedArticleId] = useState(null);
+  // const [selectedArticleId, setSelectedArticleId] = useState(null);
 
-  const onArticleSelected = (selectedArticle) => {
-    setSelectedArticleId(selectedArticle.id);
-  };
+  // const onArticleSelected = (selectedArticle) => {
+  //   setSelectedArticleId(selectedArticle.id);
+  // };
 
   return (
     <div style={{ flexGrow: 1 }}>
@@ -39,11 +40,10 @@ function App() {
         </Toolbar>
       </AppBar>
       <div style={{ display: "flex", flexDirection: "row" }}>
-        <ArticleList
-          selectedArticleId={selectedArticleId}
-          onArticleSelected={onArticleSelected}
-        />
-        <Article id={selectedArticleId} />
+        <ArticleList />
+        <Switch>
+          <Route component={Article} path="/article/:articleId" />
+        </Switch>
       </div>
     </div>
   );
