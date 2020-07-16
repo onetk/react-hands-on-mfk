@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -25,6 +25,12 @@ import { ArticleList } from "./ArticleList";
 // };
 
 function App() {
+  const [selectedArticleId, setSelectedArticleId] = useState(null);
+
+  const onArticleSelected = (selectedArticle) => {
+    setSelectedArticleId(selectedArticle.id);
+  };
+
   return (
     <div style={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -33,8 +39,11 @@ function App() {
         </Toolbar>
       </AppBar>
       <div style={{ display: "flex", flexDirection: "row" }}>
-        <ArticleList />
-        <Article />
+        <ArticleList
+          selectedArticleId={selectedArticleId}
+          onArticleSelected={onArticleSelected}
+        />
+        <Article id={selectedArticleId} />
       </div>
     </div>
   );

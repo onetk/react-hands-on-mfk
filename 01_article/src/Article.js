@@ -3,8 +3,9 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { useArticle } from "./hooks/article";
 
-export function Article() {
-  const { article } = useArticle();
+export function Article(props) {
+  const { id } = props;
+  const { article } = useArticle(id);
 
   if (!article) {
     return <div>loading...</div>;
