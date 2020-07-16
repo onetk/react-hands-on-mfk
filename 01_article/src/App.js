@@ -35,6 +35,9 @@ function App() {
         <Typography variant="h5" style={{ padding: "32px 16px 0 0" }}>
           {article.title}
         </Typography>
+        <Typography variant="caption" color="textSecondary">
+          Author: {article.author} | {new Date(article.date).toLocaleString()}
+        </Typography>
         <Typography
           variant="body1"
           paragraph
