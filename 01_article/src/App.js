@@ -3,6 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { Article } from "./Article";
+import { ArticleList } from "./ArticleList";
 
 // const article = {
 //   title: "Reactやっていこうな",
@@ -31,7 +32,10 @@ function App() {
           <Typography variant="h6">ブログ</Typography>
         </Toolbar>
       </AppBar>
-      <Article />
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <ArticleList />
+        <Article />
+      </div>
     </div>
   );
 }
